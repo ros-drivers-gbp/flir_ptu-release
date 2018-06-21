@@ -36,6 +36,7 @@
 #define PTU_BUFFER_LEN 255
 #define PTU_DEFAULT_PORT "/dev/ttyUSB0"
 #define PTU_DEFAULT_HZ 10
+#define PTU_DEFAULT_VEL 0.0
 
 // command defines
 #define PTU_PAN 'p'
@@ -70,6 +71,9 @@ public:
 
   /** \return true if initialization succeeds. */
   bool initialize();
+
+  /**  \return true if PTU software motion limits are disabled. */
+  bool disableLimits();
 
   /** \return true if the serial port is open and PTU initialized. */
   bool initialized();
@@ -182,6 +186,7 @@ private:
   int TMax;  ///< Max Tilt in Counts
   int PMin;  ///< Min Pan in Counts
   int PMax;  ///< Max Pan in Counts
+  bool Lim;  ///< Position Limits enabled
 
   // Speed Limits
   int TSMin;  ///< Min Tilt Speed in Counts/second
