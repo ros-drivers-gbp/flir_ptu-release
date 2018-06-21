@@ -51,6 +51,12 @@ T parseResponse(std::string responseBuffer)
 {
   std::string trimmed = responseBuffer.substr(1);
   boost::trim(trimmed);
+
+  if (trimmed.empty())
+  {
+      trimmed = "0";
+  }
+
   T parsed = lexical_cast<T>(trimmed);
   ROS_DEBUG_STREAM("Parsed response value: " << parsed);
   return parsed;
@@ -59,6 +65,14 @@ T parseResponse(std::string responseBuffer)
 bool PTU::initialized()
 {
   return !!ser_ && ser_->isOpen() && initialized_;
+}
+
+bool PTU::disableLimits()
+{
+  ser_->write("ld ");  // Disable Limits
+  ser_->read(20);
+  Lim = false;
+  return true;
 }
 
 bool PTU::initialize()
@@ -80,6 +94,7 @@ bool PTU::initialize()
   PSMax = getLimit(PTU_PAN, PTU_MAX_SPEED);
   TSMin = getLimit(PTU_TILT, PTU_MIN_SPEED);
   TSMax = getLimit(PTU_TILT, PTU_MAX_SPEED);
+  Lim = true;
 
   if (tr <= 0 || pr <= 0 || PMin == -1 || PMax == -1 || TMin == -1 || TMax == -1)
   {
@@ -138,7 +153,7 @@ float PTU::getRes(char type)
 
   if (buffer.length() < 3 || buffer[0] != '*')
   {
-    ROS_ERROR("Error getting pan-tilt res");
+    ROS_ERROR_THROTTLE(30, "Error getting pan-tilt res");
     return -1;
   }
 
@@ -156,7 +171,7 @@ int PTU::getLimit(char type, char limType)
 
   if (buffer.length() < 3 || buffer[0] != '*')
   {
-    ROS_ERROR("Error getting pan-tilt limit");
+    ROS_ERROR_THROTTLE(30, "Error getting pan-tilt limit");
     return -1;
   }
 
@@ -173,7 +188,7 @@ float PTU::getPosition(char type)
 
   if (buffer.length() < 3 || buffer[0] != '*')
   {
-    ROS_ERROR("Error getting pan-tilt pos");
+    ROS_ERROR_THROTTLE(30, "Error getting pan-tilt pos");
     return -1;
   }
 
@@ -190,11 +205,14 @@ bool PTU::setPosition(char type, float pos, bool block)
   int count = static_cast<int>(pos / getResolution(type));
 
   // Check limits
-  if (count < (type == PTU_TILT ? TMin : PMin) || count > (type == PTU_TILT ? TMax : PMax))
+  if (Lim)
   {
-    ROS_ERROR("Pan Tilt Value out of Range: %c %f(%d) (%d-%d)\n",
-              type, pos, count, (type == PTU_TILT ? TMin : PMin), (type == PTU_TILT ? TMax : PMax));
-    return false;
+    if (count < (type == PTU_TILT ? TMin : PMin) || count > (type == PTU_TILT ? TMax : PMax))
+    {
+      ROS_ERROR_THROTTLE(30, "Pan Tilt Value out of Range: %c %f(%d) (%d-%d)\n",
+                type, pos, count, (type == PTU_TILT ? TMin : PMin), (type == PTU_TILT ? TMax : PMax));
+      return false;
+    }
   }
 
   std::string buffer = sendCommand(std::string() + type + "p" +
@@ -207,7 +225,12 @@ bool PTU::setPosition(char type, float pos, bool block)
   }
 
   if (block)
-    while (getPosition(type) != pos) {};
+  {
+    while (getPosition(type) != pos)
+    {
+      usleep(1000);
+    }
+  }
 
   return true;
 }

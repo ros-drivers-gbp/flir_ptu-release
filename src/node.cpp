@@ -34,6 +34,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
 #include <serial/serial.h>
+#include <std_msgs/Bool.h>
 
 #include <string>
 
@@ -59,6 +60,7 @@ public:
 
   // Callback Methods
   void cmdCallback(const sensor_msgs::JointState::ConstPtr& msg);
+  void resetCallback(const std_msgs::Bool::ConstPtr& msg);
 
   void produce_diagnostics(diagnostic_updater::DiagnosticStatusWrapper &stat);
 
@@ -68,9 +70,11 @@ protected:
   ros::NodeHandle m_node;
   ros::Publisher  m_joint_pub;
   ros::Subscriber m_joint_sub;
+  ros::Subscriber m_reset_sub;
 
   serial::Serial m_ser;
   std::string m_joint_name_prefix;
+  double default_velocity_;
 };
 
 Node::Node(ros::NodeHandle& node_handle)
@@ -102,8 +106,11 @@ void Node::connect()
   // Query for serial configuration
   std::string port;
   int32_t baud;
+  bool limit;
   ros::param::param<std::string>("~port", port, PTU_DEFAULT_PORT);
+  ros::param::param<bool>("~limits_enabled", limit, true);
   ros::param::param<int32_t>("~baud", baud, PTU_DEFAULT_BAUD);
+  ros::param::param<double>("~default_velocity", default_velocity_, PTU_DEFAULT_VEL);
 
   // Connect to the PTU
   ROS_INFO_STREAM("Attempting to connect to FLIR PTU on " << port);
@@ -133,6 +140,12 @@ void Node::connect()
     return;
   }
 
+  if (!limit)
+  {
+    m_pantilt->disableLimits();
+    ROS_INFO("FLIR PTU limits disabled.");
+  }
+
   ROS_INFO("FLIR PTU initialized.");
 
   m_node.setParam("min_tilt", m_pantilt->getMin(PTU_TILT));
@@ -154,6 +167,9 @@ void Node::connect()
   // Subscribers : Only subscribe to the most recent instructions
   m_joint_sub = m_node.subscribe
                 <sensor_msgs::JointState>("cmd", 1, &Node::cmdCallback, this);
+
+  m_reset_sub = m_node.subscribe
+                <std_msgs::Bool>("reset", 1, &Node::resetCallback, this);
 }
 
 /** Disconnect */
@@ -166,22 +182,41 @@ void Node::disconnect()
   }
 }
 
+/** Callback for resetting PTU */
+void Node::resetCallback(const std_msgs::Bool::ConstPtr& msg)
+{
+  ROS_INFO("Resetting the PTU");
+  m_pantilt->home();
+}
+
 /** Callback for getting new Goal JointState */
 void Node::cmdCallback(const sensor_msgs::JointState::ConstPtr& msg)
 {
   ROS_DEBUG("PTU command callback.");
   if (!ok()) return;
 
-  if (msg->position.size() != 2 || msg->velocity.size() != 2)
+  if (msg->position.size() != 2)
   {
-    ROS_ERROR("JointState command to PTU has wrong number of elements.");
+    ROS_ERROR("JointState command to PTU has wrong number of position elements.");
     return;
   }
 
   double pan = msg->position[0];
   double tilt = msg->position[1];
-  double panspeed = msg->velocity[0];
-  double tiltspeed = msg->velocity[1];
+  double panspeed, tiltspeed;
+
+  if (msg->velocity.size() == 2)
+  {
+    panspeed = msg->velocity[0];
+    tiltspeed = msg->velocity[1];
+  }
+  else
+  {
+    ROS_WARN_ONCE("JointState command to PTU has wrong number of velocity elements; using default velocity.");
+    panspeed = default_velocity_;
+    tiltspeed = default_velocity_;
+  }
+
   m_pantilt->setPosition(PTU_PAN, pan);
   m_pantilt->setPosition(PTU_TILT, tilt);
   m_pantilt->setSpeed(PTU_PAN, panspeed);
