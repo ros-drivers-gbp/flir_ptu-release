@@ -1,0 +1,12 @@
+Source: ros-kinetic-flir-ptu-viz
+Section: misc
+Priority: extra
+Maintainer: Mike Purvis <mpurvis@clearpathrobotics.com>
+Build-Depends: debhelper (>= 9.0.0), ros-kinetic-catkin, ros-kinetic-roslaunch
+Homepage: http://wiki.ros.org/flir_ptu_driver
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-flir-ptu-viz
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-flir-ptu-description, ros-kinetic-joint-state-publisher, ros-kinetic-robot-state-publisher, ros-kinetic-rviz
+Description: Launchfiles and rviz configs to assist with visualizing the FLIR PTUs.
