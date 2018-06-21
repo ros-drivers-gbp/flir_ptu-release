@@ -1,0 +1,12 @@
+Source: ros-kinetic-flir-ptu-driver
+Section: misc
+Priority: extra
+Maintainer: Mike Purvis <mpurvis@clearpathrobotics.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, ros-kinetic-actionlib, ros-kinetic-catkin, ros-kinetic-diagnostic-updater, ros-kinetic-roscpp, ros-kinetic-roslaunch, ros-kinetic-roslint, ros-kinetic-rospy, ros-kinetic-sensor-msgs, ros-kinetic-serial, ros-kinetic-tf
+Homepage: http://wiki.ros.org/flir_ptu_driver
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-flir-ptu-driver
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kinetic-actionlib, ros-kinetic-diagnostic-updater, ros-kinetic-flir-ptu-description, ros-kinetic-robot-state-publisher, ros-kinetic-roscpp, ros-kinetic-rospy, ros-kinetic-sensor-msgs, ros-kinetic-serial, ros-kinetic-tf
+Description: Driver for the FLIR pan/tilt units.
