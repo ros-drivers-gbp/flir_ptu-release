@@ -1,3 +1,29 @@
+## flir_ptu (indigo) - 0.2.0-0
+
+The packages in the `flir_ptu` repository were released into the `indigo` distro by running `/usr/bin/bloom-release flir_ptu -r indigo -t indigo` on `Thu, 21 Jun 2018 18:25:49 -0000`
+
+These packages were released:
+- `flir_ptu_description`
+- `flir_ptu_driver`
+- `flir_ptu_viz`
+
+Version of package(s) in repository `flir_ptu`:
+
+- upstream repository: https://github.com/ros-drivers/flir_ptu.git
+- release repository: https://github.com/ros-drivers-gbp/flir_ptu-release.git
+- rosdistro version: `0.1.4-0`
+- old version: `0.1.4-0`
+- new version: `0.2.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.4`
+- catkin_pkg version: `0.4.3`
+- rosdep version: `0.12.2`
+- rosdistro version: `0.6.8`
+- vcstools version: `0.1.40`
+
+
 ## flir_ptu (indigo) - 0.1.4-0
 
 The packages in the `flir_ptu` repository were released into the `indigo` distro by running `/usr/bin/bloom-release -t indigo -r indigo flir_ptu` on `Thu, 17 Jul 2014 17:39:59 -0000`
