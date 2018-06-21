@@ -2,6 +2,9 @@
 Changelog for package flir_ptu_viz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.0 (2018-06-21)
+------------------
+
 0.1.4 (2014-07-17)
 ------------------
 * Update and install the rviz config as well.
