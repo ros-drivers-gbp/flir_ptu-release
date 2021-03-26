@@ -1,0 +1,12 @@
+Source: ros-melodic-flir-ptu-viz
+Section: misc
+Priority: optional
+Maintainer: Mike Purvis <mpurvis@clearpathrobotics.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-roslaunch
+Homepage: http://wiki.ros.org/flir_ptu_driver
+Standards-Version: 3.9.2
+
+Package: ros-melodic-flir-ptu-viz
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-flir-ptu-description, ros-melodic-joint-state-publisher, ros-melodic-robot-state-publisher, ros-melodic-rviz
+Description: Launchfiles and rviz configs to assist with visualizing the FLIR PTUs.
