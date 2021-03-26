@@ -1,0 +1,12 @@
+Source: ros-melodic-flir-ptu-driver
+Section: misc
+Priority: optional
+Maintainer: Mike Purvis <mpurvis@clearpathrobotics.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, ros-melodic-actionlib, ros-melodic-catkin, ros-melodic-diagnostic-updater, ros-melodic-roscpp, ros-melodic-roslaunch, ros-melodic-roslint, ros-melodic-rospy, ros-melodic-sensor-msgs, ros-melodic-serial, ros-melodic-tf
+Homepage: http://wiki.ros.org/flir_ptu_driver
+Standards-Version: 3.9.2
+
+Package: ros-melodic-flir-ptu-driver
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-actionlib, ros-melodic-diagnostic-updater, ros-melodic-flir-ptu-description, ros-melodic-robot-state-publisher, ros-melodic-roscpp, ros-melodic-rospy, ros-melodic-sensor-msgs, ros-melodic-serial, ros-melodic-tf
+Description: Driver for the FLIR pan/tilt units.
