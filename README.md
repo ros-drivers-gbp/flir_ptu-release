@@ -1,3 +1,29 @@
+## flir_ptu (melodic) - 0.2.1-1
+
+The packages in the `flir_ptu` repository were released into the `melodic` distro by running `/usr/bin/bloom-release -r melodic -t melodic flir_ptu` on `Fri, 26 Mar 2021 21:23:25 -0000`
+
+These packages were released:
+- `flir_ptu_description`
+- `flir_ptu_driver`
+- `flir_ptu_viz`
+
+Version of package(s) in repository `flir_ptu`:
+
+- upstream repository: https://github.com/ros-drivers/flir_ptu.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.2.1-1`
+
+Versions of tools used:
+
+- bloom version: `0.10.2`
+- catkin_pkg version: `0.4.23`
+- rosdep version: `0.20.0`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## flir_ptu (kinetic) - 0.2.1-1
 
 The packages in the `flir_ptu` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release -r kinetic -t kinetic flir_ptu` on `Fri, 26 Mar 2021 21:12:55 -0000`
