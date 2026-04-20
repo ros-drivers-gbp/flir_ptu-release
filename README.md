@@ -1,3 +1,29 @@
+## flir_ptu (jazzy) - 1.0.0-1
+
+The packages in the `flir_ptu` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release flir_ptu -r jazzy -t jazzy` on `Mon, 20 Apr 2026 12:17:42 -0000`
+
+These packages were released:
+- `flir_ptu_description`
+- `flir_ptu_driver`
+- `flir_ptu_viz`
+
+Version of package(s) in repository `flir_ptu`:
+
+- upstream repository: https://github.com/ros-drivers/flir_ptu.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `1.0.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.13.0`
+- catkin_pkg version: `1.1.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## flir_ptu (melodic) - 0.2.1-1
 
 The packages in the `flir_ptu` repository were released into the `melodic` distro by running `/usr/bin/bloom-release -r melodic -t melodic flir_ptu` on `Fri, 26 Mar 2021 21:23:25 -0000`
