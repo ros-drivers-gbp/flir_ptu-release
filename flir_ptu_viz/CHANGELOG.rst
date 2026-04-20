@@ -2,6 +2,23 @@
 Changelog for package flir_ptu_viz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.0 (2026-04-20)
+------------------
+* Linting.
+* Updated to ROS 2.
+* Contributors: Tony Baltovski
+
+0.2.3 (2023-09-14)
+------------------
+
+0.2.2 (2023-03-27)
+------------------
+* Merge pull request `#50 <https://github.com/ros-drivers/flir_ptu/issues/50>`_ from ros-drivers/wip-simulation
+  Add Gazebo Support
+* Re-add the _viz package's launch tests
+* Use a pair of JointPositionControllers to provide gazebo simulation support for the PTU
+* Contributors: Chris Iverach-Brereton, Tony Baltovski
+
 0.2.1 (2021-03-26)
 ------------------
 
